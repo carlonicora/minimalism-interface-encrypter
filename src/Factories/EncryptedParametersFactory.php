@@ -1,6 +1,8 @@
 <?php
 namespace CarloNicora\Minimalism\Interfaces\Encrypter\Factories;
 
+use CarloNicora\Minimalism\Interfaces\Encrypter\Interfaces\EncrypterInterface;
+use CarloNicora\Minimalism\Interfaces\Encrypter\Parameters\EncryptedParameter;
 use CarloNicora\Minimalism\Interfaces\Encrypter\Parameters\PositionedEncryptedParameter;
 use CarloNicora\Minimalism\Interfaces\ObjectFactoryInterface;
 use CarloNicora\Minimalism\Interfaces\ObjectInterface;
@@ -8,7 +10,11 @@ use CarloNicora\Minimalism\Objects\ModelParameters;
 
 class EncryptedParametersFactory implements ObjectFactoryInterface
 {
+    /**
+     * @param EncrypterInterface $encrypter
+     */
     public function __construct(
+        private EncrypterInterface $encrypter,
     )
     {
     }
@@ -35,6 +41,10 @@ class EncryptedParametersFactory implements ObjectFactoryInterface
             return null;
         }
 
-        return new $className($parameter);
+        /** @var PositionedEncryptedParameter|EncryptedParameter $response */
+        $response = new $className($parameter);
+        $response->setEncrypter($this->encrypter);
+
+        return $response;
     }
 }
