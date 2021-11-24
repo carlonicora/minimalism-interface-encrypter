@@ -1,10 +1,13 @@
 <?php
 namespace CarloNicora\Minimalism\Interfaces\Encrypter\Parameters;
 
+use CarloNicora\Minimalism\Interfaces\Encrypter\Factories\EncryptedParametersFactory;
 use CarloNicora\Minimalism\Interfaces\Encrypter\Interfaces\EncryptedParameterInterface;
 use CarloNicora\Minimalism\Interfaces\Encrypter\Interfaces\EncrypterInterface;
+use CarloNicora\Minimalism\Interfaces\ObjectFactoryInterface;
+use CarloNicora\Minimalism\Interfaces\ObjectInterface;
 
-class EncryptedParameter implements EncryptedParameterInterface
+class EncryptedParameter implements EncryptedParameterInterface, ObjectInterface
 {
     /**
      * @var EncrypterInterface
@@ -43,5 +46,14 @@ class EncryptedParameter implements EncryptedParameterInterface
     public function getEncryptedValue(): mixed
     {
         return $this->value;
+    }
+
+    /**
+     * @return EncryptedParametersFactory|string
+     */
+    public function getObjectFactoryClass(
+    ): EncryptedParametersFactory|string
+    {
+        return ObjectFactoryInterface::class;
     }
 }
